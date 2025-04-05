@@ -3,20 +3,83 @@
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
 
-Esse código foi baseado no desafio Backp-end do PicPay para vaga de Júnior, nessa aplicação seguimos os seguintes passos:
+# 💳 Aplicação Bancária com Transações
 
-- Para ambos tipos de usuário, precisamos do Nome Completo, CPF, e-mail e Senha. CPF/CNPJ e e-mails devem ser únicos no sistema. Sendo assim, seu sistema deve permitir apenas um cadastro com o mesmo CPF ou endereço de e-mail;
+Esta é uma API RESTful desenvolvida em **Java** utilizando **Spring Boot** e **Apache Maven**, baseada no desafio técnico de backend do **PicPay** para vagas de desenvolvedor júnior.
 
-- Usuários podem enviar dinheiro (efetuar transferência) para lojistas e entre usuários;
+A aplicação simula funcionalidades de um sistema de pagamentos, permitindo transações entre usuários, com validações de saldo, tipos de conta e integração com serviços externos simulados.
 
-- Lojistas só recebem transferências, não enviam dinheiro para ninguém;
+---
 
-- Validar se o usuário tem saldo antes da transferência;
+## 🚀 Funcionalidades
 
-- Antes de finalizar a transferência, deve-se consultar um serviço autorizador externo, use este mock para simular (https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc);
+- 📋 Cadastro de usuários (Pessoa Física ou Lojista)
+- 🔐 Validação de CPF/CNPJ e e-mail (únicos no sistema)
+- 💸 Transferências entre usuários (usuário comum → usuário comum / lojista)
+- 💰 Validação de saldo antes da transferência
+- 🧾 Transações financeiras com rollback automático em caso de falha
+- 📡 Integração com serviço autorizador externo (mock)
+- 📲 Notificações de recebimento via serviço externo (mock)
+- 🧪 Arquitetura preparada para testes e produção
 
-- A operação de transferência deve ser uma transação (ou seja, revertida em qualquer caso de inconsistência) e o dinheiro deve voltar para a carteira do usuário que envia;
+---
 
-- No recebimento de pagamento, o usuário ou lojista precisa receber notificação (envio de email, sms) enviada por um serviço de terceiro e eventualmente este serviço pode estar indisponível/instável. Use este mock para simular o envio (https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6);
+## 🧑‍💼 Tipos de Usuário
 
-- Este serviço deve ser RESTFul.
+- **Usuário comum (pessoa física)**: pode **enviar e receber** dinheiro.
+- **Lojista (pessoa jurídica)**: pode **apenas receber** dinheiro.
+
+---
+
+## 🔒 Regras de Negócio
+
+- CPF/CNPJ e e-mail devem ser **únicos** no sistema.
+- Lojistas **não podem enviar** dinheiro.
+- Transferência deve ser **autorizada externamente** antes de ser concluída.
+- Transferência deve ser **atômica** (transação revertida em caso de erro).
+- Notificações são enviadas ao **destinatário** após recebimento.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Java 17**
+- **Spring Boot**
+- **Spring Data JPA**
+- **H2 Database** (banco em memória)
+- **Apache Maven**
+- **Lombok**
+- **Feign Client / RestTemplate** (integração com serviços externos)
+- **Spring Validation**
+- **Swagger / OpenAPI**
+
+---
+
+## 🌐 Serviços Externos Simulados (Mocks)
+
+- **Autorizador de Transação**  
+  `https://run.mocky.io/v3/5794d450-d2e2-4412-8131-73d0293ac1cc`  
+  → Deve retornar `{"message": "Autorizado"}` para aprovar a transação.
+
+- **Serviço de Notificação**  
+  `https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6`  
+  → Simula envio de SMS ou e-mail ao recebedor.
+
+---
+
+## 📦 Como Executar o Projeto
+
+### Pré-requisitos
+
+- Java 17+
+- Maven 3.8+
+
+### Passos
+
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/banco-transacoes-api.git
+cd banco-transacoes-api
+
+# Execute o projeto
+./mvnw spring-boot:run
